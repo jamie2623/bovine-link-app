@@ -6,13 +6,15 @@ import App from './App.jsx'
 import { AuthProvider } from './auth/AuthProvider'
 import ProtectedRoute from './auth/ProtectedRoute'
 import RequireAdmin from './auth/RequireAdmin'
-import AccesoPage from './pages/AccesoPage'
 import DashboardPage from './pages/DashboardPage'
+import LoginPage from './pages/LoginPage'
+import RegistroPage from './pages/RegistroPage'
 import ReportesPage from './pages/ReportesPage'
 import './index.css'
 
 const router = createBrowserRouter([
-  { path: '/acceso', element: <AccesoPage /> },
+  { path: '/login', element: <LoginPage /> },
+  { path: '/registro', element: <RegistroPage /> },
   {
     path: '/',
     element: (

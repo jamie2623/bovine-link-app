@@ -1,3 +1,4 @@
+import { LOGO_FALLBACK, LOGO_URL } from '../config'
 import { useAuth } from '../auth/useAuth'
 
 export default function TopBar() {
@@ -6,7 +7,16 @@ export default function TopBar() {
   return (
     <header className="topbar">
       <div className="topbar__brand">
-        <img src="/favicon.svg" alt="" className="topbar__logo" />
+        <img
+          src={LOGO_URL}
+          alt="Bovine Link"
+          className="topbar__logo"
+          onError={(e) => {
+            if (e.currentTarget.src.endsWith(LOGO_URL)) {
+              e.currentTarget.src = LOGO_FALLBACK
+            }
+          }}
+        />
         <span className="topbar__wordmark">
           Bovine<strong>Link</strong>
         </span>

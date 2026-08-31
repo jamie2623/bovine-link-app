@@ -1,30 +1,28 @@
 import { useCallback, useMemo, useState } from 'react'
 
-import { login as loginRequest } from '../api/auth'
-import { AUTH_STORAGE_KEY } from '../config'
+import { login as loginRequest, register as registerRequest } from '../api/auth'
 import { AuthContext } from './auth-context'
-
-function leerSesion() {
-  try {
-    const raw = localStorage.getItem(AUTH_STORAGE_KEY)
-    return raw ? JSON.parse(raw) : null
-  } catch {
-    return null
-  }
-}
+import { borrarSesion, guardarSesion, leerSesion } from './session-storage'
 
 export function AuthProvider({ children }) {
   const [sesion, setSesion] = useState(leerSesion)
 
-  const login = useCallback(async (credenciales) => {
-    const data = await loginRequest(credenciales) // { token, id, nombre, correo, rol }
-    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(data))
+  const login = useCallback(async ({ correo, password, recordar = true }) => {
+    const data = await loginRequest({ correo, password }) // { token, id, nombre, correo, rol }
+    guardarSesion(data, recordar)
+    setSesion(data)
+    return data
+  }, [])
+
+  const register = useCallback(async ({ nombre, correo, telefono, password }) => {
+    const data = await registerRequest({ nombre, correo, telefono, password })
+    guardarSesion(data, true)
     setSesion(data)
     return data
   }, [])
 
   const logout = useCallback(() => {
-    localStorage.removeItem(AUTH_STORAGE_KEY)
+    borrarSesion()
     setSesion(null)
   }, [])
 
@@ -35,9 +33,10 @@ export function AuthProvider({ children }) {
       estaAutenticado: Boolean(sesion?.token),
       esAdmin: sesion?.rol === 'ADMIN',
       login,
+      register,
       logout,
     }),
-    [sesion, login, logout],
+    [sesion, login, register, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

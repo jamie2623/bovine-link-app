@@ -45,7 +45,7 @@ export default function ReportesPage() {
         cargando={cargando}
       />
 
-      {errorPdf && <div className="acceso__error">{errorPdf}</div>}
+      {errorPdf && <div className="auth__error">{errorPdf}</div>}
 
       <section className="recuadro recuadro--tabla">
         <EstadoCarga cargando={cargando} error={error} onReintentar={recargar}>

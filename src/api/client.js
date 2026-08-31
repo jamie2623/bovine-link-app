@@ -1,21 +1,13 @@
 import axios from 'axios'
 
-import { API_URL, AUTH_STORAGE_KEY } from '../config'
+import { API_URL } from '../config'
+import { borrarSesion, leerToken } from '../auth/session-storage'
 
 /** Instancia unica de axios para hablar con el backend. */
 export const apiClient = axios.create({
   baseURL: API_URL,
   headers: { 'Content-Type': 'application/json' },
 })
-
-function leerToken() {
-  try {
-    const raw = localStorage.getItem(AUTH_STORAGE_KEY)
-    return raw ? (JSON.parse(raw).token ?? null) : null
-  } catch {
-    return null
-  }
-}
 
 // Adjunta el JWT a cada peticion si hay sesion.
 apiClient.interceptors.request.use((config) => {
@@ -26,7 +18,7 @@ apiClient.interceptors.request.use((config) => {
   return config
 })
 
-// Si el backend responde 401/403, la sesion ya no sirve: se limpia y se manda a /acceso.
+// Si el backend responde 401/403, la sesion ya no sirve: se limpia y se manda a /login.
 // (Hoy estos endpoints solo exigen estar autenticado, no un rol; cuando exista control
 //  por rol habra que distinguir "no logueado" de "sin permiso".)
 apiClient.interceptors.response.use(
@@ -34,9 +26,12 @@ apiClient.interceptors.response.use(
   (error) => {
     const status = error.response?.status
     if (status === 401 || status === 403) {
-      localStorage.removeItem(AUTH_STORAGE_KEY)
-      if (!window.location.pathname.startsWith('/acceso')) {
-        window.location.assign('/acceso')
+      borrarSesion()
+      const enAuth =
+        window.location.pathname.startsWith('/login') ||
+        window.location.pathname.startsWith('/registro')
+      if (!enAuth) {
+        window.location.assign('/login')
       }
     }
     return Promise.reject(error)

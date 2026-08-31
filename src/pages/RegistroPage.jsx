@@ -1,0 +1,147 @@
+import { useState } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+
+import AuthLayout from '../components/auth/AuthLayout'
+import { useAuth } from '../auth/useAuth'
+import { mensajeDeError } from '../hooks/usePeticion'
+
+const VACIO = { nombre: '', correo: '', telefono: '', password: '', confirmar: '' }
+
+function validar(form) {
+  const errores = {}
+  if (!form.nombre.trim()) errores.nombre = 'El nombre es obligatorio.'
+  if (!form.correo.trim()) errores.correo = 'El correo es obligatorio.'
+  if (form.password.length < 8) errores.password = 'Minimo 8 caracteres.'
+  if (form.confirmar !== form.password) errores.confirmar = 'Las contrasenas no coinciden.'
+  return errores
+}
+
+export default function RegistroPage() {
+  const { estaAutenticado, register } = useAuth()
+  const navigate = useNavigate()
+
+  const [form, setForm] = useState(VACIO)
+  const [errores, setErrores] = useState({})
+  const [error, setError] = useState(null)
+  const [enviando, setEnviando] = useState(false)
+
+  if (estaAutenticado) {
+    return <Navigate to="/dashboard" replace />
+  }
+
+  const set = (campo) => (e) => setForm((prev) => ({ ...prev, [campo]: e.target.value }))
+
+  const enviar = async (e) => {
+    e.preventDefault()
+    const fallos = validar(form)
+    setErrores(fallos)
+    if (Object.keys(fallos).length > 0) return
+
+    setEnviando(true)
+    setError(null)
+    try {
+      await register({
+        nombre: form.nombre.trim(),
+        correo: form.correo.trim(),
+        telefono: form.telefono.trim() || undefined,
+        password: form.password,
+      })
+      navigate('/dashboard', { replace: true })
+    } catch (err) {
+      setError(mensajeDeError(err, 'No se pudo crear la cuenta'))
+    } finally {
+      setEnviando(false)
+    }
+  }
+
+  const claseInput = (campo) => 'auth__input' + (errores[campo] ? ' auth__input--error' : '')
+
+  return (
+    <AuthLayout
+      titulo="Bienvenido"
+      subtitulo="Registrate para continuar"
+      pie={
+        <>
+          ¿Ya tienes cuenta?
+          <Link to="/login" className="auth__enlace">
+            Iniciar sesion
+          </Link>
+        </>
+      }
+    >
+      <form className="auth__form" onSubmit={enviar} noValidate>
+        {error && <div className="auth__error">{error}</div>}
+
+        <div className="auth__campo">
+          <label htmlFor="reg-nombre">Nombre</label>
+          <input
+            id="reg-nombre"
+            type="text"
+            className={claseInput('nombre')}
+            autoComplete="name"
+            value={form.nombre}
+            onChange={set('nombre')}
+          />
+          {errores.nombre && <span className="auth__ayuda">{errores.nombre}</span>}
+        </div>
+
+        <div className="auth__campo">
+          <label htmlFor="reg-correo">Correo electronico</label>
+          <input
+            id="reg-correo"
+            type="email"
+            className={claseInput('correo')}
+            autoComplete="email"
+            value={form.correo}
+            onChange={set('correo')}
+          />
+          {errores.correo && <span className="auth__ayuda">{errores.correo}</span>}
+        </div>
+
+        <div className="auth__campo">
+          <label htmlFor="reg-telefono">Telefono</label>
+          <input
+            id="reg-telefono"
+            type="tel"
+            className="auth__input"
+            autoComplete="tel"
+            value={form.telefono}
+            onChange={set('telefono')}
+          />
+        </div>
+
+        <div className="auth__fila">
+          <div className="auth__campo">
+            <label htmlFor="reg-password">Contrasena</label>
+            <input
+              id="reg-password"
+              type="password"
+              className={claseInput('password')}
+              autoComplete="new-password"
+              value={form.password}
+              onChange={set('password')}
+            />
+            {errores.password && <span className="auth__ayuda">{errores.password}</span>}
+          </div>
+
+          <div className="auth__campo">
+            <label htmlFor="reg-confirmar">Confirma contrasena</label>
+            <input
+              id="reg-confirmar"
+              type="password"
+              className={claseInput('confirmar')}
+              autoComplete="new-password"
+              value={form.confirmar}
+              onChange={set('confirmar')}
+            />
+            {errores.confirmar && <span className="auth__ayuda">{errores.confirmar}</span>}
+          </div>
+        </div>
+
+        <button type="submit" className="auth__boton" disabled={enviando}>
+          {enviando ? 'Creando cuenta…' : 'Registrame'}
+        </button>
+      </form>
+    </AuthLayout>
+  )
+}
