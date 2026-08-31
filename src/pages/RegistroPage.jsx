@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 
 import AuthLayout from '../components/auth/AuthLayout'
+import PasswordInput from '../components/auth/PasswordInput'
 import { useAuth } from '../auth/useAuth'
 import { mensajeDeError } from '../hooks/usePeticion'
 
@@ -113,10 +114,9 @@ export default function RegistroPage() {
         <div className="auth__fila">
           <div className="auth__campo">
             <label htmlFor="reg-password">Contrasena</label>
-            <input
+            <PasswordInput
               id="reg-password"
-              type="password"
-              className={claseInput('password')}
+              className={errores.password ? 'auth__input--error' : ''}
               autoComplete="new-password"
               value={form.password}
               onChange={set('password')}
@@ -126,10 +126,9 @@ export default function RegistroPage() {
 
           <div className="auth__campo">
             <label htmlFor="reg-confirmar">Confirma contrasena</label>
-            <input
+            <PasswordInput
               id="reg-confirmar"
-              type="password"
-              className={claseInput('confirmar')}
+              className={errores.confirmar ? 'auth__input--error' : ''}
               autoComplete="new-password"
               value={form.confirmar}
               onChange={set('confirmar')}

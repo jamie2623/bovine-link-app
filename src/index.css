@@ -642,6 +642,40 @@ code {
   box-shadow: 0 0 0 3px rgba(229, 89, 91, 0.2);
 }
 
+.auth__password {
+  position: relative;
+}
+
+.auth__password .auth__input {
+  padding-right: 44px;
+}
+
+.auth__ojito {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.auth__ojito:hover {
+  color: #16181d;
+}
+
+.auth__ojito svg {
+  width: 18px;
+  height: 18px;
+}
+
 .auth__fila {
   display: grid;
   grid-template-columns: 1fr 1fr;

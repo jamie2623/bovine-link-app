@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 
 import AuthLayout from '../components/auth/AuthLayout'
+import PasswordInput from '../components/auth/PasswordInput'
 import { useAuth } from '../auth/useAuth'
 import { mensajeDeError } from '../hooks/usePeticion'
 
@@ -69,10 +70,8 @@ export default function LoginPage() {
 
         <div className="auth__campo">
           <label htmlFor="login-password">Contrasena</label>
-          <input
+          <PasswordInput
             id="login-password"
-            type="password"
-            className="auth__input"
             autoComplete="current-password"
             required
             value={password}
