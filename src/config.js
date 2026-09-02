@@ -10,5 +10,5 @@ export const AUTH_STORAGE_KEY = 'bovinelink.auth'
  * Logo de la marca. Colocar el archivo en public/logo-bovine-link.png
  * (si todavia no existe, el <img> hace fallback a /favicon.svg).
  */
-export const LOGO_URL = '/logo-bovine-link.png'
+export const LOGO_URL = '/logo.png'
 export const LOGO_FALLBACK = '/favicon.svg'

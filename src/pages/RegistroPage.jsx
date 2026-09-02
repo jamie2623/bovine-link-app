@@ -27,7 +27,7 @@ export default function RegistroPage() {
   const [enviando, setEnviando] = useState(false)
 
   if (estaAutenticado) {
-    return <Navigate to="/dashboard" replace />
+    return <Navigate to="/catalogo" replace />
   }
 
   const set = (campo) => (e) => setForm((prev) => ({ ...prev, [campo]: e.target.value }))
@@ -47,7 +47,7 @@ export default function RegistroPage() {
         telefono: form.telefono.trim() || undefined,
         password: form.password,
       })
-      navigate('/dashboard', { replace: true })
+      navigate('/catalogo', { replace: true })
     } catch (err) {
       setError(mensajeDeError(err, 'No se pudo crear la cuenta'))
     } finally {

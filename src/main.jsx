@@ -6,17 +6,22 @@ import App from './App.jsx'
 import { AuthProvider } from './auth/AuthProvider'
 import ProtectedRoute from './auth/ProtectedRoute'
 import RequireAdmin from './auth/RequireAdmin'
+import CatalogoLayout from './components/catalogo/CatalogoLayout'
+import CatalogoPage from './pages/CatalogoPage'
 import DashboardPage from './pages/DashboardPage'
+import EnConstruccion from './pages/EnConstruccion'
 import LoginPage from './pages/LoginPage'
 import RegistroPage from './pages/RegistroPage'
 import ReportesPage from './pages/ReportesPage'
+import InicioRedirect from './routes/InicioRedirect'
 import './index.css'
 
 const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
   { path: '/registro', element: <RegistroPage /> },
+
+  // Panel de administracion (rol ADMIN)
   {
-    path: '/',
     element: (
       <ProtectedRoute>
         <RequireAdmin>
@@ -25,11 +30,26 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-      { index: true, element: <Navigate to="/dashboard" replace /> },
-      { path: 'dashboard', element: <DashboardPage /> },
-      { path: 'reportes', element: <ReportesPage /> },
+      { path: '/dashboard', element: <DashboardPage /> },
+      { path: '/reportes', element: <ReportesPage /> },
     ],
   },
+
+  // Vistas de usuario (rol USUARIO)
+  {
+    element: (
+      <ProtectedRoute>
+        <CatalogoLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      { path: '/catalogo', element: <CatalogoPage /> },
+      { path: '/publicar', element: <EnConstruccion titulo="Publicar" /> },
+      { path: '/mis-publicaciones', element: <EnConstruccion titulo="Mis publicaciones" /> },
+    ],
+  },
+
+  { path: '/', element: <InicioRedirect /> },
   { path: '*', element: <Navigate to="/" replace /> },
 ])
 

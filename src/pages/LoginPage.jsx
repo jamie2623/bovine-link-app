@@ -7,7 +7,7 @@ import { useAuth } from '../auth/useAuth'
 import { mensajeDeError } from '../hooks/usePeticion'
 
 export default function LoginPage() {
-  const { estaAutenticado, login } = useAuth()
+  const { estaAutenticado, esAdmin, login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -19,17 +19,17 @@ export default function LoginPage() {
   const [enviando, setEnviando] = useState(false)
 
   if (estaAutenticado) {
-    return <Navigate to="/dashboard" replace />
+    return <Navigate to={esAdmin ? '/dashboard' : '/catalogo'} replace />
   }
-
-  const destino = location.state?.from ?? '/dashboard'
 
   const enviar = async (e) => {
     e.preventDefault()
     setEnviando(true)
     setError(null)
     try {
-      await login({ correo, password, recordar })
+      const data = await login({ correo, password, recordar })
+      const destino =
+        location.state?.from ?? (data.rol === 'ADMIN' ? '/dashboard' : '/catalogo')
       navigate(destino, { replace: true })
     } catch (err) {
       setError(mensajeDeError(err, 'Correo o contrasena incorrectos'))
