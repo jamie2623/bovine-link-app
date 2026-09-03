@@ -61,6 +61,7 @@ export default function RegistroPage() {
     <AuthLayout
       titulo="Bienvenido"
       subtitulo="Registrate para continuar"
+      video="/auth-video-registro.mp4"
       pie={
         <>
           ¿Ya tienes cuenta?

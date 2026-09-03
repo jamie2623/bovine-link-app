@@ -560,11 +560,65 @@ code {
   min-height: 100vh;
   min-height: 100dvh; /* evita el "salto" por la barra del navegador en pantallas chicas */
   display: flex;
-  flex-direction: column;
-  padding: 24px 20px;
   background:
     radial-gradient(900px 420px at 50% -12%, rgba(201, 162, 75, 0.12), transparent 60%),
     var(--bg);
+}
+
+/* ---- Mitad izquierda: video ---- */
+.auth__media {
+  position: relative;
+  flex: 1 1 50%;
+  margin: 20px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0a0d16; /* mientras carga el video */
+  border: 1px solid var(--oro);
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
+}
+
+.auth__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.auth__video--listo {
+  opacity: 1;
+}
+
+/* aro interior sutil para que el borde no se vea "pelado" */
+.auth__media-borde {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+/* tinte para dar profundidad y separar del panel */
+.auth__media-tinte {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(10, 13, 22, 0.15),
+    rgba(10, 13, 22, 0.05) 40%,
+    rgba(10, 13, 22, 0.55)
+  );
+  pointer-events: none;
+}
+
+/* ---- Mitad derecha: tarjeta ---- */
+.auth__panel {
+  flex: 1 1 50%;
+  display: flex;
+  padding: 24px 20px;
 }
 
 .auth__card {
@@ -577,6 +631,17 @@ code {
   border-radius: 16px;
   background: linear-gradient(180deg, #0e1424, #0b0f1c);
   box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
+}
+
+/* Pantallas angostas: sin video, solo la tarjeta centrada */
+@media (max-width: 900px) {
+  .auth__media {
+    display: none;
+  }
+
+  .auth__panel {
+    flex-basis: 100%;
+  }
 }
 
 .auth__logo {
@@ -795,8 +860,12 @@ code {
 
 /* Pantallas bajas (laptops chicas): compacta la tarjeta para que entre sin scroll. */
 @media (max-height: 760px) {
-  .auth {
+  .auth__panel {
     padding: 10px 20px;
+  }
+
+  .auth__media {
+    margin: 12px;
   }
 
   .auth__card {

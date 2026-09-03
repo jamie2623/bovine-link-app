@@ -42,6 +42,7 @@ export default function LoginPage() {
     <AuthLayout
       titulo="Bienvenido de vuelta"
       subtitulo="Inicie sesion para continuar"
+      video="/auth-video-login.mp4"
       pie={
         <>
           ¿No tienes cuenta?
