@@ -20,9 +20,11 @@ export default function FiltrosCatalogo({
   precioHasta,
   onPrecioChange,
   onBuscar,
+  onLimpiar,
 }) {
   return (
-    <aside className="cat-filtros">
+    <aside className="cat-filtros" aria-label="Filtros del catálogo">
+      <form onSubmit={(e) => { e.preventDefault(); onBuscar() }}>
       <section className="cat-filtros__bloque">
         <h2 className="cat-filtros__titulo">Razas</h2>
 
@@ -40,6 +42,7 @@ export default function FiltrosCatalogo({
                     className={
                       'cat-chip' + (seleccionadas.has(r.id) ? ' cat-chip--activo' : '')
                     }
+                    aria-pressed={seleccionadas.has(r.id)}
                     onClick={() => onToggleRaza(r.id)}
                   >
                     {r.nombre}
@@ -59,6 +62,8 @@ export default function FiltrosCatalogo({
             <input
               type="number"
               min="0"
+              step="0.01"
+              placeholder="$0.00"
               className="cat-input"
               value={precioDesde}
               onChange={(e) => onPrecioChange({ desde: e.target.value })}
@@ -69,6 +74,8 @@ export default function FiltrosCatalogo({
             <input
               type="number"
               min="0"
+              step="0.01"
+              placeholder="$0.00"
               className="cat-input"
               value={precioHasta}
               onChange={(e) => onPrecioChange({ hasta: e.target.value })}
@@ -77,9 +84,11 @@ export default function FiltrosCatalogo({
         </div>
       </section>
 
-      <button type="button" className="cat-buscar" onClick={onBuscar}>
+      <button type="submit" className="cat-buscar">
         Buscar
       </button>
+      <button type="button" className="cat-limpiar" onClick={onLimpiar}>Limpiar filtros</button>
+      </form>
     </aside>
   )
 }
