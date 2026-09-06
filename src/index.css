@@ -557,24 +557,23 @@ code {
 /* ---------- Autenticacion (login / registro) ---------- */
 
 .auth {
+  position: relative;
   min-height: 100vh;
   min-height: 100dvh; /* evita el "salto" por la barra del navegador en pantallas chicas */
   display: flex;
+  flex-direction: column;
   background:
     radial-gradient(900px 420px at 50% -12%, rgba(201, 162, 75, 0.12), transparent 60%),
     var(--bg);
 }
 
-/* ---- Mitad izquierda: video ---- */
+/* ---- Video a pantalla completa, detras de todo ---- */
 .auth__media {
-  position: relative;
-  flex: 1 1 50%;
-  margin: 20px;
-  border-radius: 18px;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   overflow: hidden;
   background: #0a0d16; /* mientras carga el video */
-  border: 1px solid var(--oro);
-  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
 }
 
 .auth__video {
@@ -592,31 +591,21 @@ code {
   opacity: 1;
 }
 
-/* aro interior sutil para que el borde no se vea "pelado" */
-.auth__media-borde {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
-  pointer-events: none;
-}
-
-/* tinte para dar profundidad y separar del panel */
+/* tinte general para que el video no compita con el texto de la tarjeta */
 .auth__media-tinte {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    100deg,
-    rgba(10, 13, 22, 0.15),
-    rgba(10, 13, 22, 0.05) 40%,
-    rgba(10, 13, 22, 0.55)
-  );
+  background:
+    radial-gradient(60% 60% at 50% 45%, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.5)),
+    rgba(0, 0, 0, 0.2);
   pointer-events: none;
 }
 
-/* ---- Mitad derecha: tarjeta ---- */
+/* ---- Panel + tarjeta (encima del video) ---- */
 .auth__panel {
-  flex: 1 1 50%;
+  position: relative;
+  z-index: 1;
+  flex: 1;
   display: flex;
   padding: 24px 20px;
 }
@@ -627,20 +616,20 @@ code {
   margin: auto;
   width: min(420px, 100%);
   padding: 32px clamp(22px, 5vw, 40px) 28px;
-  border: 1px solid rgba(201, 162, 75, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 16px;
-  background: linear-gradient(180deg, #0e1424, #0b0f1c);
-  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
+  /* tarjeta translucida: se ve el video atras, difuminado */
+  background: rgba(11, 15, 26, 0.5);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.75);
 }
 
-/* Pantallas angostas: sin video, solo la tarjeta centrada */
-@media (max-width: 900px) {
-  .auth__media {
-    display: none;
-  }
-
-  .auth__panel {
-    flex-basis: 100%;
+/* Si el navegador no soporta backdrop-filter, se usa un fondo mas solido
+   para no perder legibilidad. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .auth__card {
+    background: rgba(11, 15, 26, 0.82);
   }
 }
 
@@ -862,10 +851,6 @@ code {
 @media (max-height: 760px) {
   .auth__panel {
     padding: 10px 20px;
-  }
-
-  .auth__media {
-    margin: 12px;
   }
 
   .auth__card {

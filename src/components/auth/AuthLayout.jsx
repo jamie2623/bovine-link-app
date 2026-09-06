@@ -4,8 +4,9 @@ import { LOGO_FALLBACK, LOGO_URL } from '../../config'
 
 /**
  * Marco compartido por Login y Registro.
- * Pantallas anchas: video a la izquierda (mitad) + tarjeta a la derecha (mitad).
- * Pantallas angostas: el video se oculta y queda solo la tarjeta centrada.
+ * El video va a pantalla completa detras de la tarjeta; la tarjeta es
+ * translucida (efecto vidrio) para que el video se vea a traves.
+ * Si el usuario pidio "reducir movimiento", no se monta el video.
  *
  * @param {{
  *   titulo: string, subtitulo: string,
@@ -17,28 +18,20 @@ export default function AuthLayout({ titulo, subtitulo, children, pie, video }) 
   const videoRef = useRef(null)
   const [listo, setListo] = useState(false)
 
-  // Solo montamos el <video> (y por lo tanto se descarga) si:
-  //  - la pantalla es ancha (en angostas no hay panel de video)
-  //  - el usuario NO pidio "reducir movimiento"
-  const consulta = () =>
+  // No montamos el <video> si el usuario pidio reducir movimiento.
+  const sinMovimiento = () =>
     typeof window !== 'undefined' &&
-    window.matchMedia('(min-width: 901px)').matches &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-  const [aplicaVideo, setAplicaVideo] = useState(consulta)
+  const [reducido, setReducido] = useState(sinMovimiento)
   useEffect(() => {
-    const mqAncho = window.matchMedia('(min-width: 901px)')
-    const mqMovim = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const actualizar = () => setAplicaVideo(mqAncho.matches && !mqMovim.matches)
-    mqAncho.addEventListener('change', actualizar)
-    mqMovim.addEventListener('change', actualizar)
-    return () => {
-      mqAncho.removeEventListener('change', actualizar)
-      mqMovim.removeEventListener('change', actualizar)
-    }
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const actualizar = () => setReducido(mq.matches)
+    mq.addEventListener('change', actualizar)
+    return () => mq.removeEventListener('change', actualizar)
   }, [])
 
-  const mostrarVideo = Boolean(video) && aplicaVideo
+  const mostrarVideo = Boolean(video) && !reducido
 
   // Algunos navegadores no arrancan el autoplay solo aunque este muteado.
   useEffect(() => {
@@ -48,7 +41,7 @@ export default function AuthLayout({ titulo, subtitulo, children, pie, video }) 
   }, [mostrarVideo])
 
   return (
-    <div className={'auth' + (mostrarVideo ? ' auth--split' : '')}>
+    <div className={'auth' + (mostrarVideo ? ' auth--con-video' : '')}>
       {mostrarVideo && (
         <div className="auth__media" aria-hidden="true">
           <video
@@ -70,7 +63,6 @@ export default function AuthLayout({ titulo, subtitulo, children, pie, video }) 
               e.currentTarget.play().catch(() => {})
             }}
           />
-          <div className="auth__media-borde" />
           <div className="auth__media-tinte" />
         </div>
       )}
