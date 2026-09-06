@@ -13,7 +13,7 @@ function validar(form) {
   if (!form.nombre.trim()) errores.nombre = 'El nombre es obligatorio.'
   if (!form.correo.trim()) errores.correo = 'El correo es obligatorio.'
   if (form.password.length < 8) errores.password = 'Minimo 8 caracteres.'
-  if (form.confirmar !== form.password) errores.confirmar = 'Las contrasenas no coinciden.'
+  if (form.confirmar !== form.password) errores.confirmar = 'Las contraseñas no coinciden.'
   return errores
 }
 
@@ -114,7 +114,7 @@ export default function RegistroPage() {
 
         <div className="auth__fila">
           <div className="auth__campo">
-            <label htmlFor="reg-password">Contrasena</label>
+            <label htmlFor="reg-password">Contraseña</label>
             <PasswordInput
               id="reg-password"
               className={errores.password ? 'auth__input--error' : ''}
@@ -126,7 +126,7 @@ export default function RegistroPage() {
           </div>
 
           <div className="auth__campo">
-            <label htmlFor="reg-confirmar">Confirma contrasena</label>
+            <label htmlFor="reg-confirmar">Confirma contraseña</label>
             <PasswordInput
               id="reg-confirmar"
               className={errores.confirmar ? 'auth__input--error' : ''}

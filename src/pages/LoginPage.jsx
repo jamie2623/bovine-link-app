@@ -32,7 +32,7 @@ export default function LoginPage() {
         location.state?.from ?? (data.rol === 'ADMIN' ? '/dashboard' : '/catalogo')
       navigate(destino, { replace: true })
     } catch (err) {
-      setError(mensajeDeError(err, 'Correo o contrasena incorrectos'))
+      setError(mensajeDeError(err, 'Correo o contraseña incorrectos'))
     } finally {
       setEnviando(false)
     }
@@ -70,7 +70,7 @@ export default function LoginPage() {
         </div>
 
         <div className="auth__campo">
-          <label htmlFor="login-password">Contrasena</label>
+          <label htmlFor="login-password">Contraseña</label>
           <PasswordInput
             id="login-password"
             autoComplete="current-password"
@@ -84,10 +84,10 @@ export default function LoginPage() {
           type="button"
           className="auth__olvidaste"
           onClick={() =>
-            setAviso('La recuperacion de contrasena todavia no esta disponible en el backend.')
+            setAviso('La recuperación de contraseña todavía no está disponible en el backend.')
           }
         >
-          ¿Olvidaste tu contrasena?
+          ¿Olvidaste tu contraseña?
         </button>
 
         <label className="auth__recordarme">
