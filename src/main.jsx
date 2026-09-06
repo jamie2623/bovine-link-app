@@ -7,13 +7,14 @@ import { AuthProvider } from './auth/AuthProvider'
 import ProtectedRoute from './auth/ProtectedRoute'
 import RequireAdmin from './auth/RequireAdmin'
 import CatalogoLayout from './components/catalogo/CatalogoLayout'
+import PublicacionDetallePage from './pages/PublicacionDetallePage'
 import CatalogoPage from './pages/CatalogoPage'
 import DashboardPage from './pages/DashboardPage'
-import EnConstruccion from './pages/EnConstruccion'
+import MisPublicacionesPage from './pages/MisPublicacionesPage'
 import LoginPage from './pages/LoginPage'
 import RegistroPage from './pages/RegistroPage'
+import PublicarPage from './pages/PublicarPage'
 import ReportesPage from './pages/ReportesPage'
-import InicioRedirect from './routes/InicioRedirect'
 import './index.css'
 
 const router = createBrowserRouter([
@@ -37,19 +38,16 @@ const router = createBrowserRouter([
 
   // Vistas de usuario (rol USUARIO)
   {
-    element: (
-      <ProtectedRoute>
-        <CatalogoLayout />
-      </ProtectedRoute>
-    ),
+    element: <CatalogoLayout />,
     children: [
+      { path: '/', element: <CatalogoPage /> },
+      { path: '/publicaciones/:id', element: <PublicacionDetallePage /> },
       { path: '/catalogo', element: <CatalogoPage /> },
-      { path: '/publicar', element: <EnConstruccion titulo="Publicar" /> },
-      { path: '/mis-publicaciones', element: <EnConstruccion titulo="Mis publicaciones" /> },
+      { path: '/publicar', element: <ProtectedRoute><PublicarPage /></ProtectedRoute> },
+      { path: '/mis-publicaciones', element: <ProtectedRoute><MisPublicacionesPage /></ProtectedRoute> },
     ],
   },
 
-  { path: '/', element: <InicioRedirect /> },
   { path: '*', element: <Navigate to="/" replace /> },
 ])
 
