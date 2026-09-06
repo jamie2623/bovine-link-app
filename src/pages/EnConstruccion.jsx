@@ -1,9 +1,9 @@
-/** Placeholder para vistas que todavia no existen (Publicar, Mis publicaciones). */
-export default function EnConstruccion({ titulo = 'Seccion' }) {
+/** Placeholder para vistas que todavía no existen (Publicar, Mis publicaciones). */
+export default function EnConstruccion({ titulo = 'Sección' }) {
   return (
     <div className="en-construccion">
       <h1>{titulo}</h1>
-      <p>Esta seccion todavia no esta implementada.</p>
+      <p>Esta sección todavía no está implementada.</p>
     </div>
   )
 }

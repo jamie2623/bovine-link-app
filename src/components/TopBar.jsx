@@ -27,7 +27,7 @@ export default function TopBar() {
       <div className="topbar__user">
         <span className="chip">{usuario?.rol ?? 'INVITADO'}</span>
         <button type="button" className="topbar__logout" onClick={logout}>
-          Cerrar sesion
+          Cerrar sesión
         </button>
       </div>
     </header>

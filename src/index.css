@@ -557,30 +557,88 @@ code {
 /* ---------- Autenticacion (login / registro) ---------- */
 
 .auth {
-  min-height: 100%;
-  display: grid;
-  place-items: center;
-  padding: 32px 20px;
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh; /* evita el "salto" por la barra del navegador en pantallas chicas */
+  display: flex;
+  flex-direction: column;
   background:
     radial-gradient(900px 420px at 50% -12%, rgba(201, 162, 75, 0.12), transparent 60%),
     var(--bg);
 }
 
+/* ---- Video a pantalla completa, detras de todo ---- */
+.auth__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #0a0d16; /* mientras carga el video */
+}
+
+.auth__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.auth__video--listo {
+  opacity: 1;
+}
+
+/* tinte general para que el video no compita con el texto de la tarjeta */
+.auth__media-tinte {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 60% at 50% 45%, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.5)),
+    rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+/* ---- Panel + tarjeta (encima del video) ---- */
+.auth__panel {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  padding: 24px 20px;
+}
+
 .auth__card {
-  width: min(460px, 100%);
-  padding: 36px clamp(24px, 5vw, 44px) 30px;
-  border: 1px solid rgba(201, 162, 75, 0.45);
+  /* margin auto: centra la tarjeta cuando sobra espacio y la pega arriba
+     (sin recortarla) cuando la pantalla es mas baja que la tarjeta. */
+  margin: auto;
+  width: min(420px, 100%);
+  padding: 32px clamp(22px, 5vw, 40px) 28px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 16px;
-  background: linear-gradient(180deg, #0e1424, #0b0f1c);
-  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
+  /* tarjeta translucida: se ve el video atras, difuminado */
+  background: rgba(11, 15, 26, 0.5);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.75);
+}
+
+/* Si el navegador no soporta backdrop-filter, se usa un fondo mas solido
+   para no perder legibilidad. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .auth__card {
+    background: rgba(11, 15, 26, 0.82);
+  }
 }
 
 .auth__logo {
   display: block;
-  width: 190px;
-  max-width: 70%;
+  width: 150px;
+  max-width: 58%;
   height: auto;
-  margin: 0 auto 10px;
+  margin: 0 auto 8px;
 }
 
 .auth__titulo {
@@ -591,7 +649,7 @@ code {
 }
 
 .auth__subtitulo {
-  margin: 6px 0 24px;
+  margin: 6px 0 18px;
   text-align: center;
   font-family: var(--serif);
   font-style: italic;
@@ -604,7 +662,7 @@ code {
 .auth__form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 .auth__campo {
@@ -680,6 +738,14 @@ code {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
+  align-items: start;
+}
+
+/* "Contraseña" ocupa 1 linea y "Confirma contraseña" 2: se reserva la altura
+   de 2 lineas en ambas etiquetas para que los dos inputs queden alineados. */
+.auth__fila .auth__campo > label {
+  min-height: 34px;
+  min-height: 2lh;
 }
 
 .auth__ayuda {
@@ -786,6 +852,46 @@ code {
 @media (max-width: 520px) {
   .auth__fila {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Pantallas bajas (laptops chicas): compacta la tarjeta para que entre sin scroll. */
+@media (max-height: 760px) {
+  .auth__panel {
+    padding: 10px 20px;
+  }
+
+  .auth__card {
+    padding-top: 20px;
+    padding-bottom: 16px;
+  }
+
+  .auth__logo {
+    width: 110px;
+    margin-bottom: 2px;
+  }
+
+  .auth__titulo {
+    font-size: 18px;
+  }
+
+  .auth__subtitulo {
+    margin: 3px 0 10px;
+    font-size: 13px;
+  }
+
+  .auth__form {
+    gap: 9px;
+  }
+
+  .auth__input,
+  .auth__password .auth__input {
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+
+  .auth__pie {
+    margin-top: 12px;
   }
 }
 

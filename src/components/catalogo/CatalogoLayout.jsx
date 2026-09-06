@@ -48,12 +48,12 @@ export default function CatalogoLayout() {
             <>
               <span className="chip">{usuario?.nombre ?? usuario?.rol}</span>
               <button type="button" className="cat__logout" onClick={logout}>
-                Cerrar sesion
+                Cerrar sesión
               </button>
             </>
           ) : (
             <NavLink to="/login" className="cat__link">
-              Iniciar sesion
+              Iniciar sesión
             </NavLink>
           )}
         </div>

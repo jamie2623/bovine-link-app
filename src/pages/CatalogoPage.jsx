@@ -64,13 +64,13 @@ export default function CatalogoPage() {
             />
 
             <main className="cat__main">
-              <h1 className="cat__titulo">Catalogo</h1>
+              <h1 className="cat__titulo">Catálogo</h1>
 
               <section className="cat-hero">
                 <div className="cat-hero__texto">
                   <h2>Conectando ganaderos, impulsando tu negocio.</h2>
                   <p>
-                    La forma mas facil de vender y comprar ganado. Sin intermediarios, de forma
+                    La forma más fácil de vender y comprar ganado. Sin intermediarios, de forma
                     directa.
                   </p>
                 </div>

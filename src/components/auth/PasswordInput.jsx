@@ -21,7 +21,7 @@ function IconoOjoTachado() {
 }
 
 /**
- * Input de contrasena con boton "ojito" para mostrar/ocultar el texto.
+ * Input de contraseña con boton "ojito" para mostrar/ocultar el texto.
  * Reenvia el resto de props al <input> (id, value, onChange, autoComplete, required...).
  */
 export default function PasswordInput({ className = '', ...props }) {
@@ -38,8 +38,8 @@ export default function PasswordInput({ className = '', ...props }) {
         type="button"
         className="auth__ojito"
         onClick={() => setVisible((v) => !v)}
-        aria-label={visible ? 'Ocultar contrasena' : 'Mostrar contrasena'}
-        title={visible ? 'Ocultar contrasena' : 'Mostrar contrasena'}
+        aria-label={visible ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+        title={visible ? 'Ocultar contraseña' : 'Mostrar contraseña'}
       >
         {visible ? <IconoOjoTachado /> : <IconoOjo />}
       </button>

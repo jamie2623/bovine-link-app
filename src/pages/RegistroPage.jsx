@@ -12,8 +12,8 @@ function validar(form) {
   const errores = {}
   if (!form.nombre.trim()) errores.nombre = 'El nombre es obligatorio.'
   if (!form.correo.trim()) errores.correo = 'El correo es obligatorio.'
-  if (form.password.length < 8) errores.password = 'Minimo 8 caracteres.'
-  if (form.confirmar !== form.password) errores.confirmar = 'Las contrasenas no coinciden.'
+  if (form.password.length < 8) errores.password = 'Mínimo 8 caracteres.'
+  if (form.confirmar !== form.password) errores.confirmar = 'Las contraseñas no coinciden.'
   return errores
 }
 
@@ -60,12 +60,13 @@ export default function RegistroPage() {
   return (
     <AuthLayout
       titulo="Bienvenido"
-      subtitulo="Registrate para continuar"
+      subtitulo="Regístrate para continuar"
+      video="/auth-video-registro.mp4"
       pie={
         <>
           ¿Ya tienes cuenta?
           <Link to="/login" className="auth__enlace">
-            Iniciar sesion
+            Iniciar sesión
           </Link>
         </>
       }
@@ -87,7 +88,7 @@ export default function RegistroPage() {
         </div>
 
         <div className="auth__campo">
-          <label htmlFor="reg-correo">Correo electronico</label>
+          <label htmlFor="reg-correo">Correo electrónico</label>
           <input
             id="reg-correo"
             type="email"
@@ -100,7 +101,7 @@ export default function RegistroPage() {
         </div>
 
         <div className="auth__campo">
-          <label htmlFor="reg-telefono">Telefono</label>
+          <label htmlFor="reg-telefono">Teléfono</label>
           <input
             id="reg-telefono"
             type="tel"
@@ -113,7 +114,7 @@ export default function RegistroPage() {
 
         <div className="auth__fila">
           <div className="auth__campo">
-            <label htmlFor="reg-password">Contrasena</label>
+            <label htmlFor="reg-password">Contraseña</label>
             <PasswordInput
               id="reg-password"
               className={errores.password ? 'auth__input--error' : ''}
@@ -125,7 +126,7 @@ export default function RegistroPage() {
           </div>
 
           <div className="auth__campo">
-            <label htmlFor="reg-confirmar">Confirma contrasena</label>
+            <label htmlFor="reg-confirmar">Confirma contraseña</label>
             <PasswordInput
               id="reg-confirmar"
               className={errores.confirmar ? 'auth__input--error' : ''}
@@ -138,7 +139,7 @@ export default function RegistroPage() {
         </div>
 
         <button type="submit" className="auth__boton" disabled={enviando}>
-          {enviando ? 'Creando cuenta…' : 'Registrame'}
+          {enviando ? 'Creando cuenta…' : 'Regístrame'}
         </button>
       </form>
     </AuthLayout>

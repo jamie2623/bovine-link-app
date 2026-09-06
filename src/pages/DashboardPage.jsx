@@ -44,14 +44,14 @@ export default function DashboardPage() {
 
           <section className="graficos">
             <div className="recuadro">
-              <h2 className="recuadro__titulo">Publicaciones por ubicacion</h2>
+              <h2 className="recuadro__titulo">Publicaciones por ubicación</h2>
               <div className="recuadro__cuerpo">
                 <BarrasPorUbicacion datos={datos.porUbicacion} />
               </div>
             </div>
 
             <div className="recuadro">
-              <h2 className="recuadro__titulo">Distribucion de ganado por raza</h2>
+              <h2 className="recuadro__titulo">Distribución de ganado por raza</h2>
               <div className="recuadro__cuerpo">
                 <PastelPorRaza datos={datos.porRaza} />
               </div>
@@ -59,7 +59,7 @@ export default function DashboardPage() {
           </section>
 
           <section className="recuadro recuadro--tabla">
-            <h2 className="recuadro__titulo">Ultimas publicaciones</h2>
+            <h2 className="recuadro__titulo">Últimas publicaciones</h2>
             <UltimasPublicaciones filas={datos.publicaciones} limite={5} />
           </section>
         </>

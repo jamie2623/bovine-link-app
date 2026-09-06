@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 /** Mensaje de error legible a partir de un error de axios. */
-export function mensajeDeError(error, porDefecto = 'Ocurrio un error inesperado') {
+export function mensajeDeError(error, porDefecto = 'Ocurrió un error inesperado') {
   return (
     error?.response?.data?.mensaje ??
     error?.response?.data?.message ??

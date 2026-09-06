@@ -32,7 +32,7 @@ export default function LoginPage() {
         location.state?.from ?? (data.rol === 'ADMIN' ? '/dashboard' : '/catalogo')
       navigate(destino, { replace: true })
     } catch (err) {
-      setError(mensajeDeError(err, 'Correo o contrasena incorrectos'))
+      setError(mensajeDeError(err, 'Correo o contraseña incorrectos'))
     } finally {
       setEnviando(false)
     }
@@ -41,7 +41,8 @@ export default function LoginPage() {
   return (
     <AuthLayout
       titulo="Bienvenido de vuelta"
-      subtitulo="Inicie sesion para continuar"
+      subtitulo="Inicie sesión para continuar"
+      video="/auth-video-login.mp4"
       pie={
         <>
           ¿No tienes cuenta?
@@ -56,7 +57,7 @@ export default function LoginPage() {
         {aviso && <div className="auth__aviso">{aviso}</div>}
 
         <div className="auth__campo">
-          <label htmlFor="login-correo">Correo electronico</label>
+          <label htmlFor="login-correo">Correo electrónico</label>
           <input
             id="login-correo"
             type="email"
@@ -69,7 +70,7 @@ export default function LoginPage() {
         </div>
 
         <div className="auth__campo">
-          <label htmlFor="login-password">Contrasena</label>
+          <label htmlFor="login-password">Contraseña</label>
           <PasswordInput
             id="login-password"
             autoComplete="current-password"
@@ -83,10 +84,10 @@ export default function LoginPage() {
           type="button"
           className="auth__olvidaste"
           onClick={() =>
-            setAviso('La recuperacion de contrasena todavia no esta disponible en el backend.')
+            setAviso('La recuperación de contraseña todavía no está disponible en el backend.')
           }
         >
-          ¿Olvidaste tu contrasena?
+          ¿Olvidaste tu contraseña?
         </button>
 
         <label className="auth__recordarme">
@@ -99,7 +100,7 @@ export default function LoginPage() {
         </label>
 
         <button type="submit" className="auth__boton" disabled={enviando}>
-          {enviando ? 'Ingresando…' : 'Iniciar Sesion'}
+          {enviando ? 'Ingresando…' : 'Iniciar Sesión'}
         </button>
       </form>
     </AuthLayout>
