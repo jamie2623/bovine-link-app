@@ -9,9 +9,9 @@ export async function obtenerRazas() {
   return data
 }
 
-/** Etiquetas legibles para las categorias de raza. */
+/** Etiquetas legibles para las categorías de raza. */
 export const CATEGORIAS_RAZA = [
   { valor: 'leche', titulo: 'Ganado Lechero' },
   { valor: 'carne', titulo: 'Ganado de Carne' },
-  { valor: 'doble_proposito', titulo: 'Doble Proposito y Criollo' },
+  { valor: 'doble_proposito', titulo: 'Doble Propósito y Criollo' },
 ]

@@ -17,7 +17,7 @@ export default function BarrasPorUbicacion({ datos = [] }) {
   const data = datos.map((d) => ({ ubicacion: d.etiqueta, total: Number(d.total) }))
 
   if (data.length === 0) {
-    return <p className="tabla__vacio">Sin datos de ubicacion.</p>
+    return <p className="tabla__vacio">Sin datos de ubicación.</p>
   }
 
   return (

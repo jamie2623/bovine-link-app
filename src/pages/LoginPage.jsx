@@ -41,7 +41,7 @@ export default function LoginPage() {
   return (
     <AuthLayout
       titulo="Bienvenido de vuelta"
-      subtitulo="Inicie sesion para continuar"
+      subtitulo="Inicie sesión para continuar"
       video="/auth-video-login.mp4"
       pie={
         <>
@@ -57,7 +57,7 @@ export default function LoginPage() {
         {aviso && <div className="auth__aviso">{aviso}</div>}
 
         <div className="auth__campo">
-          <label htmlFor="login-correo">Correo electronico</label>
+          <label htmlFor="login-correo">Correo electrónico</label>
           <input
             id="login-correo"
             type="email"
@@ -100,7 +100,7 @@ export default function LoginPage() {
         </label>
 
         <button type="submit" className="auth__boton" disabled={enviando}>
-          {enviando ? 'Ingresando…' : 'Iniciar Sesion'}
+          {enviando ? 'Ingresando…' : 'Iniciar Sesión'}
         </button>
       </form>
     </AuthLayout>

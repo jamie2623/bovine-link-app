@@ -1,13 +1,13 @@
 import { formatoMoneda } from '../../utils/formato'
 
 /**
- * Card de una publicacion en el catalogo. Sin imagen por ahora (solo prueba).
+ * Card de una publicación en el catálogo. Sin imagen por ahora (solo prueba).
  * @param {{ publicacion: object }} props
  */
 export default function PublicacionCard({ publicacion }) {
   const { titulo, descripcion, precio, ubicacion } = publicacion
 
-  const mensaje = encodeURIComponent(`Hola, me interesa tu publicacion "${titulo}" en Bovine Link.`)
+  const mensaje = encodeURIComponent(`Hola, me interesa tu publicación "${titulo}" en Bovine Link.`)
 
   return (
     <article className="pub-card">

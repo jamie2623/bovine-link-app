@@ -6,7 +6,7 @@ import {
 } from '../../utils/formato'
 
 /**
- * Tabla "Ultimas publicaciones" del dashboard.
+ * Tabla "Últimas publicaciones" del dashboard.
  * Reutiliza los datos de /api/reportes (mismos campos), ordenados por fecha desc.
  *
  * @param {{ filas: Array<object>, limite?: number }} props
@@ -21,7 +21,7 @@ export default function UltimasPublicaciones({ filas = [], limite = 5 }) {
       <table className="tabla">
         <thead>
           <tr>
-            <th>Titulo</th>
+            <th>Título</th>
             <th>Raza</th>
             <th>Precio</th>
             <th>Estado</th>
