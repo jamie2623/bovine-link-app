@@ -1372,8 +1372,9 @@ code {
 .publicar :disabled { opacity: .55; cursor: not-allowed; }
 .publicar__error { color: #ffc0b8; background: #381d28; padding: 12px; border-radius: 4px; font-size: 13px; max-width: 440px; }
 @media (max-width: 700px) { .publicar__form { grid-template-columns: 1fr; } .publicar__datos { border-right: 0 !important; border-bottom: 1px solid #887414 !important; } .publicar__acciones { gap: 12px; } .publicar__acciones button { padding: 12px; } .publicar__fotos { padding-top: 24px; } }
-.cat--publicar .cat__user .chip { display: inline-flex; background: #60531c; color: #fff; border: 1px solid #9d8a39; border-radius: 6px; padding: 4px 8px; font: 700 16px var(--serif); }
-.cat--publicar .cat__logout { background: #401018; color: #efb8b9; border: 1px solid #926066; border-radius: 6px; padding: 6px 9px; font: 700 16px var(--serif); }
+.cat__user .chip { display: inline-flex; background: #60531c; color: #fff; border: 1px solid #9d8a39; border-radius: 6px; padding: 4px 8px; font: 700 16px var(--serif); }
+.cat__logout { background: #401018; color: #efb8b9; border: 1px solid #926066; border-radius: 6px; padding: 6px 9px; font: 700 16px var(--serif); }
+.cat__logout:hover { background: #55161f; color: #fff; }
 
 /* Detalle público del ganado */
 .pub-card { position: relative; }
@@ -1456,3 +1457,138 @@ code {
 .mis__dialogo :disabled { opacity: .55; cursor: not-allowed; }
 .mis__dialogo :focus-visible { outline: 2px solid #f3d342; outline-offset: 3px; }
 @media(max-width: 700px) { .mis { padding: 24px 16px; } .mis__cabecera { grid-template-columns: 1fr auto; } .mis h1 { grid-column: 1 / -1; grid-row: 1; padding-bottom: 6px; } .mis__publicar { font-size: 16px; } .mis__filtro { gap: 6px; } .mis__filtro select { padding: 8px; font-size: 14px; } }
+
+/* ============================================================
+   Catálogo — mejoras de UX (sticky sidebar, botón limpiar,
+   cards más grandes con animación al hover)
+   ============================================================ */
+
+/* Nav y barra lateral fijos: al scrollear solo se mueven las cards */
+.cat__nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.cat-filtros {
+  position: sticky;
+  top: 70px;
+  align-self: start;
+  max-height: calc(100vh - 70px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* "Limpiar filtros" (y "Ver todas") con aspecto de botón */
+.cat-limpiar {
+  align-self: center;
+  width: 75%;
+  padding: 7px 10px;
+  background: transparent;
+  border: 1px solid #887414;
+  border-radius: 6px;
+  color: #e3ce80;
+  font: 600 12px var(--serif);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.cat-limpiar:hover {
+  border-color: #f3d342;
+  color: #f3d342;
+  background: rgba(243, 211, 66, 0.08);
+}
+
+/* Cards un poco más grandes */
+.cat-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 26px;
+}
+
+.pub-card__cuerpo {
+  padding: 10px 10px 12px;
+  gap: 7px;
+}
+
+.pub-card__meta {
+  font-size: 10px;
+}
+
+.pub-card__titulo {
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.pub-card__desc {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.pub-card__whatsapp {
+  font-size: 10px;
+  padding: 8px 4px;
+}
+
+@media (min-width: 1500px) {
+  .cat-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+}
+
+@media (max-width: 1200px) {
+  .cat-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Animación al pasar el cursor: la card se levanta */
+.pub-card {
+  transition:
+    transform 0.22s cubic-bezier(0.2, 0.7, 0.3, 1),
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.pub-card__imagen img {
+  transition: transform 0.4s ease;
+}
+
+.pub-card:hover {
+  transform: translateY(-8px);
+  border-color: #f3d342;
+  box-shadow:
+    0 20px 36px -16px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(243, 211, 66, 0.35);
+}
+
+.pub-card:hover .pub-card__imagen img {
+  transform: scale(1.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pub-card,
+  .pub-card__imagen img {
+    transition: none;
+  }
+  .pub-card:hover {
+    transform: none;
+  }
+  .pub-card:hover .pub-card__imagen img {
+    transform: none;
+  }
+}
+
+/* En móvil la barra lateral vuelve a fluir con el contenido */
+@media (max-width: 780px) {
+  .cat-filtros {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+  .cat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
