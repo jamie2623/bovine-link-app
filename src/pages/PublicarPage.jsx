@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { obtenerRazas, CATEGORIAS_RAZA } from '../api/razas'
 import { crearPublicacion } from '../api/publicaciones'
 import { mensajeDeError, usePeticion } from '../hooks/usePeticion'
+import { alertaError, alertaExito } from '../utils/alertas'
 
 export default function PublicarPage() {
   const navigate = useNavigate()
@@ -37,9 +38,12 @@ export default function PublicarPage() {
     bloqueo.current = true; setEnviando(true); setError('')
     try {
       await crearPublicacion({ ...campos, titulo: campos.titulo.trim(), ubicacion: campos.ubicacion.trim(), descripcion: campos.descripcion.trim(), razaId: Number(campos.razaId), precio: Number(campos.precio) }, fotos.map(f => f.file))
-      navigate('/catalogo', { state: { publicacionCreada: true } })
+      alertaExito('Publicación creada correctamente')
+      navigate('/catalogo')
     } catch (err) {
-      setError(err.response?.status === 413 ? 'Las imágenes superan el tamaño permitido (5 MB por foto).' : mensajeDeError(err, 'No se pudo publicar. Intenta de nuevo.'))
+      const msg = err.response?.status === 413 ? 'Las imágenes superan el tamaño permitido (5 MB por foto).' : mensajeDeError(err, 'No se pudo publicar. Intenta de nuevo.')
+      setError(msg)
+      alertaError(msg)
     } finally { bloqueo.current = false; setEnviando(false) }
   }
   return (

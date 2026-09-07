@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import EstadoCarga from '../components/EstadoCarga'
 import FiltrosCatalogo from '../components/catalogo/FiltrosCatalogo'
 import PublicacionCard from '../components/catalogo/PublicacionCard'
@@ -13,7 +12,6 @@ async function cargarCatalogo() {
 }
 
 export default function CatalogoPage() {
-  const location = useLocation()
   const { datos, cargando, error, recargar } = usePeticion(cargarCatalogo, [])
   const [razasSel, setRazasSel] = useState(() => new Set())
   const [precioDesde, setPrecioDesde] = useState('')
@@ -53,14 +51,13 @@ export default function CatalogoPage() {
           if (hasta !== undefined) setPrecioHasta(hasta)
         }} onBuscar={buscar} onLimpiar={limpiar} />
       <main className="cat__main">
-        {location.state?.publicacionCreada && <p role="status" className="cat__aviso">Tu publicación se guardó correctamente.</p>}
         <h1 className="cat__titulo">Catálogo</h1>
         <section className="cat-hero">
           <div className="cat-hero__texto">
             <h2>Conectando ganaderos, impulsando tu negocio.</h2>
             <p>La forma más fácil de vender y comprar ganado.<br />Sin intermediarios, de forma directa.</p>
           </div>
-          <img className="cat-hero__foto" src="https://images.unsplash.com/photo-1640117276947-ec4244acf4e0?auto=format&fit=crop&w=640&q=85" alt="Ganado en el campo" onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = '/logo.png' }} />
+          <img className="cat-hero__foto" src="/demo/ganado-1.jpg" alt="Ganado en el campo" onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = '/logo.png' }} />
         </section>
         {aviso && <p className="cat__aviso" role="alert">{aviso}</p>}
         <EstadoCarga cargando={cargando} error={error === 'Network Error' ? 'No se pudo conectar con el servidor. Verifica que el backend esté iniciado y vuelve a intentar.' : error} onReintentar={recargar}>

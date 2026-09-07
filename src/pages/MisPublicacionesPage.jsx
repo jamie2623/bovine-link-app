@@ -5,6 +5,7 @@ import { obtenerMisPublicaciones, actualizarPublicacion, eliminarPublicacion } f
 import { obtenerRazas } from '../api/razas'
 import { usePeticion, mensajeDeError } from '../hooks/usePeticion'
 import { formatoMoneda } from '../utils/formato'
+import { alertaError, alertaExito } from '../utils/alertas'
 import { API_URL } from '../config'
 
 function Icono({ eliminar = false }) {
@@ -33,7 +34,11 @@ function Dialogo({ accion, cerrar, completado }) {
       if (accion.tipo === 'eliminar') await eliminarPublicacion(accion.p.id)
       else await actualizarPublicacion(accion.p.id, { ...campos, titulo: campos.titulo.trim(), descripcion: campos.descripcion.trim(), ubicacion: campos.ubicacion.trim(), precio: Number(campos.precio), razaId: Number(campos.razaId) })
       completado(accion.tipo === 'eliminar' ? 'Publicación eliminada.' : 'Cambios guardados.')
-    } catch (err) { setError(mensajeDeError(err, 'No se pudo guardar el cambio.')) }
+    } catch (err) {
+      const msg = mensajeDeError(err, 'No se pudo guardar el cambio.')
+      setError(msg)
+      alertaError(msg)
+    }
     finally { bloqueo.current = false; setOcupado(false) }
   }
   return <dialog ref={ref} className="mis__dialogo" aria-labelledby="mis-dialogo-titulo" onCancel={e => { e.preventDefault(); if (!bloqueo.current) cerrar() }}><form onSubmit={guardar}>
@@ -56,16 +61,14 @@ export default function MisPublicacionesPage() {
   const [seleccion, setSeleccion] = useState('todos')
   const [filtro, setFiltro] = useState('todos')
   const [accion, setAccion] = useState(null)
-  const [aviso, setAviso] = useState('')
   const visibles = (datos ?? []).filter(p => filtro === 'todos' || p.estado === filtro)
   return <main className="mis">
     <div className="mis__cabecera"><form className="mis__filtro" onSubmit={e => { e.preventDefault(); setFiltro(seleccion) }}><select aria-label="Estado de las publicaciones" value={seleccion} onChange={e => setSeleccion(e.target.value)}><option value="todos">Todos</option><option value="vendido">Vendidos</option><option value="en_venta">En venta</option></select><button type="submit">Filtrar</button></form><h1>Mis<br />publicaciones</h1><Link className="mis__publicar" to="/publicar">+ Publicar</Link></div>
-    {aviso && <p role="status" className="mis__aviso">{aviso}</p>}
     <EstadoCarga cargando={cargando} error={error === 'Network Error' ? 'No se pudo conectar con el servidor. Intenta de nuevo.' : error} onReintentar={recargar}>
       {visibles.length ? <div className="mis__tabla-scroll"><table className="mis__tabla"><caption className="mis__sr">Tus publicaciones: {filtro === 'todos' ? 'todos los estados' : filtro === 'vendido' ? 'vendidos' : 'en venta'}</caption><thead><tr>{['Foto', 'Título', 'Descripción', 'Precio', 'Ubicación', 'Acciones'].map(t => <th key={t} scope="col">{t}</th>)}</tr></thead><tbody>{visibles.map(p => <tr key={p.id}>
         <td><Foto key={p.fotos?.[0]} publicacion={p} /></td><td><Link to={`/publicaciones/${p.id}`}>{p.titulo}</Link></td><td><p className="mis__descripcion">{p.descripcion}</p></td><td className="mis__precio">{formatoMoneda(p.precio)}</td><td>{p.ubicacion}</td><td><div className="mis__acciones"><button type="button" aria-label={`Editar ${p.titulo}`} onClick={() => setAccion({ tipo: 'editar', p })}><Icono /></button><button type="button" className="mis__eliminar" aria-label={`Eliminar ${p.titulo}`} onClick={() => setAccion({ tipo: 'eliminar', p })}><Icono eliminar /></button></div></td>
       </tr>)}</tbody></table></div> : <div className="mis__vacio"><p>{datos?.length ? 'No tienes publicaciones con este estado.' : 'Todavía no tienes publicaciones.'}</p><Link to="/publicar">Publicar ganado</Link></div>}
     </EstadoCarga>
-    {accion && <Dialogo accion={accion} cerrar={() => setAccion(null)} completado={mensaje => { setAccion(null); setAviso(mensaje); recargar() }} />}
+    {accion && <Dialogo accion={accion} cerrar={() => setAccion(null)} completado={mensaje => { setAccion(null); alertaExito(mensaje); recargar() }} />}
   </main>
 }
