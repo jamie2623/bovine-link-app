@@ -11,10 +11,11 @@ import { LOGO_FALLBACK, LOGO_URL } from '../../config'
  * @param {{
  *   titulo: string, subtitulo: string,
  *   children: React.ReactNode, pie: React.ReactNode,
- *   video?: string
+ *   video?: string,
+ *   videoPosition?: string
  * }} props
  */
-export default function AuthLayout({ titulo, subtitulo, children, pie, video }) {
+export default function AuthLayout({ titulo, subtitulo, children, pie, video, videoPosition }) {
   const videoRef = useRef(null)
   const [listo, setListo] = useState(false)
 
@@ -48,6 +49,7 @@ export default function AuthLayout({ titulo, subtitulo, children, pie, video }) 
             ref={videoRef}
             className={'auth__video' + (listo ? ' auth__video--listo' : '')}
             src={video}
+            style={videoPosition ? { objectPosition: videoPosition } : undefined}
             autoPlay
             muted
             loop
