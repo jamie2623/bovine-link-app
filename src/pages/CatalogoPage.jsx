@@ -18,19 +18,22 @@ export default function CatalogoPage() {
   const [precioHasta, setPrecioHasta] = useState('')
   const [aviso, setAviso] = useState('')
   const [aplicados, setAplicados] = useState({ razas: new Set(), desde: '', hasta: '' })
-  const toggleRaza = (id) => setRazasSel(prev => {
-    const next = new Set(prev)
+  // Las razas se aplican al instante: al hacer clic en un chip se filtra sin
+  // tocar "Buscar". Ese botón queda solo para el rango de precios.
+  const toggleRaza = (id) => {
+    const next = new Set(razasSel)
     if (next.has(id)) next.delete(id)
     else next.add(id)
-    return next
-  })
+    setRazasSel(next)
+    setAplicados(a => ({ ...a, razas: next }))
+  }
   const buscar = () => {
     if (precioDesde !== '' && precioHasta !== '' && Number(precioDesde) > Number(precioHasta)) {
       setAviso('El precio desde no puede ser mayor que el precio hasta.')
       return
     }
     setAviso('')
-    setAplicados({ razas: new Set(razasSel), desde: precioDesde, hasta: precioHasta })
+    setAplicados(a => ({ ...a, desde: precioDesde, hasta: precioHasta }))
   }
   const limpiar = () => {
     setRazasSel(new Set()); setPrecioDesde(''); setPrecioHasta(''); setAviso('')
