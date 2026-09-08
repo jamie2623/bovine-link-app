@@ -1482,15 +1482,15 @@ code {
 /* "Limpiar filtros" (y "Ver todas") con aspecto de botón */
 .cat-limpiar {
   align-self: center;
-  width: 75%;
-  padding: 7px 10px;
+  width: auto;
+  padding: 4px 12px;
   background: transparent;
   border: 1px solid #887414;
-  border-radius: 6px;
+  border-radius: 5px;
   color: #e3ce80;
-  font: 600 12px var(--serif);
+  font: 600 10px var(--serif);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-decoration: none;
   cursor: pointer;
   transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
