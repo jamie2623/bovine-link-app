@@ -996,7 +996,7 @@ code {
   }
 
   .auth__marca-logo {
-    width: clamp(220px, 26vw, 400px);
+    width: clamp(260px, 31vw, 460px);
     height: auto;
     filter: drop-shadow(0 14px 44px rgba(0, 0, 0, 0.55));
   }
