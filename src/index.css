@@ -1512,8 +1512,8 @@ code {
 .publicar :disabled { opacity: .55; cursor: not-allowed; }
 .publicar__error { color: #ffc0b8; background: #381d28; padding: 12px; border-radius: 4px; font-size: 13px; max-width: 440px; }
 @media (max-width: 700px) { .publicar__form { grid-template-columns: 1fr; } .publicar__datos { border-right: 0 !important; border-bottom: 1px solid #887414 !important; } .publicar__acciones { gap: 12px; } .publicar__acciones button { padding: 12px; } .publicar__fotos { padding-top: 24px; } }
-.cat__user .chip { display: inline-flex; background: #60531c; color: #fff; border: 1px solid #9d8a39; border-radius: 6px; padding: 4px 8px; font: 700 16px var(--serif); }
-.cat__logout { background: #401018; color: #efb8b9; border: 1px solid #926066; border-radius: 6px; padding: 6px 9px; font: 700 16px var(--serif); }
+.cat__user .chip { display: inline-flex; background: #60531c; color: #fff; border: 1px solid #9d8a39; border-radius: 6px; padding: 3px 8px; font: 700 12px var(--serif); }
+.cat__logout { background: #401018; color: #efb8b9; border: 1px solid #926066; border-radius: 6px; padding: 4px 9px; font: 700 12px var(--serif); text-transform: none; }
 .cat__logout:hover { background: #55161f; color: #fff; }
 
 /* Detalle público del ganado */
@@ -1549,6 +1549,47 @@ code {
 .detalle__vendido { color: #f3d342; border: 1px solid #887414; padding: 8px 14px; width: fit-content; }
 @media(max-width: 850px) { .detalle { padding: 30px 24px; } .detalle__columnas { gap: 28px; } .detalle__whatsapp { font-size: 15px; gap: 10px; padding: 14px; } .detalle__vendedor { padding: 16px; gap: 12px; } .detalle__vendedor h2 { font-size: 18px; } }
 @media(max-width: 620px) { .detalle__columnas { grid-template-columns: 1fr; } .detalle__volver { font-size: 12px; } .detalle__volver span { margin-right: 6px; } .detalle { padding: 24px 18px 48px; } .detalle__whatsapp { margin-top: 24px; } }
+
+/* ============================================================
+   Detalle de la publicacion: vista ESTATICA, cabe en una pantalla
+   y no genera scroll. Se compactan tipografias, margenes y la foto;
+   la descripcion (texto libre) es la unica parte que, si es muy
+   larga, hace un scroll propio pequeno -> la pagina no se mueve.
+   Debajo de 620px (una sola columna) se deja el scroll normal.
+   ============================================================ */
+@media (min-width: 621px) {
+  .cat--detalle { height: 100vh; overflow: hidden; }
+  .cat--detalle .cat__nav { min-height: 0; }
+  .cat--detalle .detalle__volver { padding: 10px 0; font-size: 14px; }
+  .cat--detalle .detalle__volver span { font-size: 20px; margin-right: 8px; }
+
+  .cat--detalle .detalle { flex: 1; min-height: 0; overflow: hidden; padding: 14px 40px 18px; }
+  .cat--detalle .detalle__columnas { height: 100%; min-height: 0; gap: 34px; align-items: stretch; }
+
+  /* --- galeria --- */
+  .cat--detalle .detalle__principal { aspect-ratio: auto; height: min(50vh, 400px); border-radius: 14px; }
+  .cat--detalle .detalle__miniaturas { margin-top: 10px; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(52px, 1fr)); }
+
+  /* --- informacion --- */
+  .cat--detalle .detalle__informacion { display: flex; flex-direction: column; min-height: 0; }
+  .cat--detalle .detalle__raza { align-self: flex-start; padding: 2px 12px; font-size: 13px; border-radius: 8px; }
+  .cat--detalle .detalle h1 { font-size: clamp(18px, 2.2vw, 24px); margin: 10px 0 8px; }
+  .cat--detalle .detalle__precio { font-size: 22px; margin: 0 0 10px; }
+  .cat--detalle .detalle__vendido { padding: 4px 12px; margin: 0 0 10px; }
+  .cat--detalle .detalle__ubicacion { gap: 10px; font-size: 14px; margin: 0 0 10px; }
+  .cat--detalle .detalle__ubicacion svg { width: 18px; height: 18px; }
+  .cat--detalle .detalle__descripcion { flex: 0 1 auto; min-height: 0; overflow-y: auto; font: 500 14px/1.4 var(--serif); margin: 0 0 12px; }
+
+  /* la tarjeta del vendedor y el boton se anclan abajo; el hueco queda
+     entre la descripcion y ellos, no dentro de un recuadro vacio */
+  .cat--detalle .detalle__vendedor { margin-top: auto; min-height: 0; gap: 12px; padding: 10px 14px; border-radius: 12px; }
+  .cat--detalle .detalle__avatar { flex: 0 0 44px; height: 44px; font-size: 18px; }
+  .cat--detalle .detalle__vendedor h2 { font-size: 15px; }
+
+  .cat--detalle .detalle__whatsapp { min-height: 0; gap: 12px; padding: 12px; margin-top: 14px; font-size: 14px; border-radius: 8px; }
+  .cat--detalle .detalle__whatsapp svg { width: 26px; height: 26px; }
+  .cat--detalle .detalle__contacto-aviso { margin-top: 12px; font-size: 13px; }
+}
 
 /* Administración de las publicaciones del usuario */
 .mis { width: min(100%, 1120px); margin: 0 auto; padding: 28px 40px 60px; }

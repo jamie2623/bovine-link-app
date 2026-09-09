@@ -17,7 +17,7 @@ export default function CatalogoLayout() {
   const { usuario, estaAutenticado, esAdmin, logout } = useAuth()
 
   return (
-    <div className={(publicando || misPublicaciones) ? "cat cat--publicar" : "cat"}>
+    <div className={'cat' + ((publicando || misPublicaciones) ? ' cat--publicar' : '') + (detalle ? ' cat--detalle' : '')}>
       <header className="cat__nav">
         <NavLink to="/" className="cat__brand" aria-label="Bovine Link, inicio">
           <img
