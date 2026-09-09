@@ -1575,10 +1575,13 @@ code {
   .cat--detalle .detalle { flex: 1; min-height: 0; overflow: hidden; padding: 12px 40px 16px; }
   .cat--detalle .detalle__columnas { height: 100%; min-height: 0; gap: 34px; align-items: stretch; }
 
-  /* --- galeria: foto principal y miniaturas mas chicas --- */
-  .cat--detalle .detalle__principal { aspect-ratio: auto; height: min(42vh, 330px); border-radius: 14px; }
-  /* pistas de ancho fijo: las miniaturas ya no se estiran a "1fr" */
-  .cat--detalle .detalle__miniaturas { margin-top: 10px; gap: 8px; grid-template-columns: repeat(auto-fill, 58px); justify-content: start; }
+  /* --- galeria: la foto principal manda; las miniaturas mas grandes,
+     centradas y con margen para que se vea ordenado. Nunca del mismo
+     tamano que la principal. --- */
+  .cat--detalle .detalle__galeria { display: flex; flex-direction: column; align-items: center; }
+  .cat--detalle .detalle__principal { aspect-ratio: auto; height: min(38vh, 300px); width: 96%; border-radius: 14px; }
+  .cat--detalle .detalle__miniaturas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 16px; width: 100%; }
+  .cat--detalle .detalle__miniaturas button { width: 96px; border-radius: 8px; }
 
   /* --- informacion: todo apilado desde arriba (sin hueco en medio) --- */
   .cat--detalle .detalle__informacion { display: flex; flex-direction: column; min-height: 0; }
