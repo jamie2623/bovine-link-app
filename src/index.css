@@ -968,6 +968,66 @@ code {
   margin-top: clamp(8px, 1.8vh, 18px);
 }
 
+/* ============================================================
+   Pantalla ancha: logo de la marca a la IZQUIERDA y el formulario
+   a la DERECHA. El video de fondo queda visible detras de las dos
+   columnas (la izquierda solo lleva el logo, sin panel opaco).
+   En pantallas angostas no aplica: la tarjeta se centra como antes
+   y se ve el logo que ya trae dentro.
+   ============================================================ */
+.auth__marca {
+  display: none; /* solo se muestra en pantallas anchas */
+}
+
+@media (min-width: 900px) {
+  .auth__panel {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(40px, 8vw, 130px);
+    padding: 24px clamp(32px, 6vw, 80px);
+  }
+
+  .auth__marca {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .auth__marca-logo {
+    width: clamp(260px, 31vw, 460px);
+    height: auto;
+    filter: drop-shadow(0 14px 44px rgba(0, 0, 0, 0.55));
+  }
+
+  /* la tarjeta ya no se autocentra con "margin: auto": la centra el panel */
+  .auth__card,
+  .auth--registro .auth__card {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  /* con el logo grande a la izquierda, el de adentro de la tarjeta sobra */
+  .auth__card .auth__logo {
+    display: none;
+  }
+
+  /* tinte: un poco mas marcado detras de la tarjeta (derecha) para que el
+     texto se lea, y claro a la izquierda para lucir el video y el logo */
+  .auth__media-tinte {
+    background:
+      radial-gradient(60% 85% at 78% 50%, rgba(0, 0, 0, 0.44), transparent 72%),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
+  }
+
+  /* registro: la tarjeta sigue anclada arriba (no se recentra al aparecer
+     los errores); el logo lateral se centra vertical por su cuenta */
+  .auth--registro .auth__marca {
+    align-self: center;
+  }
+}
+
 /* ---------- Responsivo ---------- */
 
 @media (max-width: 860px) {
