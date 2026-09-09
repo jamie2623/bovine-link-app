@@ -898,11 +898,13 @@ code {
 }
 
 /* ============================================================
-   Registro: la tarjeta queda ESTATICA y sin scroll.
-   - Con margin:auto se recentraba (y "saltaba") al aparecer/ocultar
-     mensajes de error -> se ancla arriba.
+   Registro: la tarjeta va CENTRADA y sin scroll.
    - Todo lo vertical se mide con vh (clamp) para que la tarjeta se
-     encoja sola y quepa completa en pantallas bajas, sin scroll.
+     encoja sola y quepa completa en pantallas bajas.
+   - Se centra con margin-block:auto: cuando sobra espacio queda al
+     centro (mismo aire arriba y abajo); si la ventana es muy baja,
+     el auto colapsa a 0, la tarjeta se ancla arriba y el panel hace
+     scroll de seguridad -> nunca se recorta.
    ============================================================ */
 .auth--registro {
   height: 100vh;
@@ -911,14 +913,13 @@ code {
 }
 
 .auth--registro .auth__panel {
-  align-items: flex-start;               /* ancla la tarjeta arriba */
-  padding-top: clamp(10px, 3.5vh, 44px);
-  padding-bottom: clamp(10px, 3.5vh, 24px);
+  align-items: flex-start;               /* respaldo: si no cabe, ancla arriba y deja hacer scroll */
+  padding-block: clamp(10px, 3.5vh, 44px);
   overflow-y: auto;                      /* red de seguridad para ventanas diminutas */
 }
 
 .auth--registro .auth__card {
-  margin-block: 0;                       /* anula el centrado vertical de margin:auto */
+  margin-block: auto;                    /* centra vertical cuando sobra espacio */
   padding-top: clamp(14px, 2.6vh, 26px);
   padding-bottom: clamp(12px, 2.2vh, 24px);
 }
@@ -1001,10 +1002,17 @@ code {
     filter: drop-shadow(0 14px 44px rgba(0, 0, 0, 0.55));
   }
 
-  /* la tarjeta ya no se autocentra con "margin: auto": la centra el panel */
-  .auth__card,
-  .auth--registro .auth__card {
+  /* login: la tarjeta ya no se autocentra con "margin: auto", la centra el panel */
+  .auth__card {
     margin: 0;
+    flex-shrink: 0;
+  }
+
+  /* registro: centrada vertical sin recortarse (margin-block:auto), sin
+     margen horizontal para no pelear con justify-content del panel */
+  .auth--registro .auth__card {
+    margin-inline: 0;
+    margin-block: auto;
     flex-shrink: 0;
   }
 
@@ -1021,8 +1029,7 @@ code {
       linear-gradient(90deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
   }
 
-  /* registro: la tarjeta sigue anclada arriba (no se recentra al aparecer
-     los errores); el logo lateral se centra vertical por su cuenta */
+  /* el logo lateral se centra vertical por su cuenta (no lo mueve la tarjeta) */
   .auth--registro .auth__marca {
     align-self: center;
   }
@@ -1505,8 +1512,8 @@ code {
 .publicar :disabled { opacity: .55; cursor: not-allowed; }
 .publicar__error { color: #ffc0b8; background: #381d28; padding: 12px; border-radius: 4px; font-size: 13px; max-width: 440px; }
 @media (max-width: 700px) { .publicar__form { grid-template-columns: 1fr; } .publicar__datos { border-right: 0 !important; border-bottom: 1px solid #887414 !important; } .publicar__acciones { gap: 12px; } .publicar__acciones button { padding: 12px; } .publicar__fotos { padding-top: 24px; } }
-.cat__user .chip { display: inline-flex; background: #60531c; color: #fff; border: 1px solid #9d8a39; border-radius: 6px; padding: 4px 8px; font: 700 16px var(--serif); }
-.cat__logout { background: #401018; color: #efb8b9; border: 1px solid #926066; border-radius: 6px; padding: 6px 9px; font: 700 16px var(--serif); }
+.cat__user .chip { display: inline-flex; background: #60531c; color: #fff; border: 1px solid #9d8a39; border-radius: 6px; padding: 3px 8px; font: 700 12px var(--serif); }
+.cat__logout { background: #401018; color: #efb8b9; border: 1px solid #926066; border-radius: 6px; padding: 4px 9px; font: 700 12px var(--serif); text-transform: none; }
 .cat__logout:hover { background: #55161f; color: #fff; }
 
 /* Detalle público del ganado */
@@ -1539,9 +1546,63 @@ code {
 .detalle__whatsapp svg { flex-shrink: 0; }
 .detalle__whatsapp:hover { background: #09912d; }
 .detalle__contacto-aviso { margin-top: 28px; color: #c9c6b6; }
+/* Caja de contacto: recuadro amarillo con esquinas redondeadas que agrupa
+   al vendedor y el boton de WhatsApp. */
+.detalle__contacto { margin-top: 28px; padding: 18px; border: 1px solid #f3d342; border-radius: 16px; background: rgba(243, 211, 66, 0.05); }
+.detalle__contacto .detalle__vendedor { border: 0; border-radius: 0; padding: 0; min-height: 0; }
+.detalle__contacto .detalle__whatsapp { margin-top: 16px; }
+.detalle__contacto .detalle__contacto-aviso { margin-top: 0; }
 .detalle__vendido { color: #f3d342; border: 1px solid #887414; padding: 8px 14px; width: fit-content; }
 @media(max-width: 850px) { .detalle { padding: 30px 24px; } .detalle__columnas { gap: 28px; } .detalle__whatsapp { font-size: 15px; gap: 10px; padding: 14px; } .detalle__vendedor { padding: 16px; gap: 12px; } .detalle__vendedor h2 { font-size: 18px; } }
 @media(max-width: 620px) { .detalle__columnas { grid-template-columns: 1fr; } .detalle__volver { font-size: 12px; } .detalle__volver span { margin-right: 6px; } .detalle { padding: 24px 18px 48px; } .detalle__whatsapp { margin-top: 24px; } }
+
+/* ============================================================
+   Detalle de la publicacion: vista ESTATICA, cabe en una pantalla
+   y no genera scroll. Se compactan tipografias, margenes y la foto;
+   la descripcion (texto libre) es la unica parte que, si es muy
+   larga, hace un scroll propio pequeno -> la pagina no se mueve.
+   Debajo de 620px (una sola columna) se deja el scroll normal.
+   ============================================================ */
+@media (min-width: 621px) {
+  .cat--detalle { height: 100vh; overflow: hidden; }
+
+  /* cabecera "Volver al catalogo" mas chica -> mas espacio para el contenido */
+  .cat--detalle .cat__nav { min-height: 0; padding-top: 4px; padding-bottom: 4px; }
+  .cat--detalle .cat__logo { width: 62px; height: 44px; }
+  .cat--detalle .detalle__volver { padding: 5px 0; font-size: 12px; }
+  .cat--detalle .detalle__volver span { font-size: 16px; margin-right: 6px; }
+
+  .cat--detalle .detalle { flex: 1; min-height: 0; overflow: hidden; padding: 12px 40px 16px; }
+  .cat--detalle .detalle__columnas { height: 100%; min-height: 0; gap: 34px; align-items: stretch; }
+
+  /* --- galeria: la foto principal manda; las miniaturas mas grandes,
+     centradas y con margen para que se vea ordenado. Nunca del mismo
+     tamano que la principal. Todo el bloque va centrado vertical. --- */
+  .cat--detalle .detalle__galeria { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .cat--detalle .detalle__principal { aspect-ratio: 1.5; height: min(44vh, 350px); width: auto; max-width: 100%; border-radius: 14px; }
+  .cat--detalle .detalle__miniaturas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 16px; width: 100%; }
+  .cat--detalle .detalle__miniaturas button { width: 96px; border-radius: 8px; }
+
+  /* --- informacion: bloque centrado vertical (no pegado arriba) --- */
+  .cat--detalle .detalle__informacion { display: flex; flex-direction: column; justify-content: center; min-height: 0; }
+  .cat--detalle .detalle__raza { align-self: flex-start; padding: 2px 12px; font-size: 13px; border-radius: 8px; }
+  .cat--detalle .detalle h1 { font-size: clamp(18px, 2.2vw, 24px); margin: 10px 0 8px; }
+  .cat--detalle .detalle__precio { font-size: 22px; margin: 0 0 10px; }
+  .cat--detalle .detalle__vendido { padding: 4px 12px; margin: 0 0 10px; }
+  .cat--detalle .detalle__ubicacion { gap: 10px; font-size: 14px; margin: 0 0 10px; }
+  .cat--detalle .detalle__ubicacion svg { width: 18px; height: 18px; }
+  .cat--detalle .detalle__descripcion { flex: 0 1 auto; min-height: 0; overflow-y: auto; font: 500 14px/1.4 var(--serif); margin: 0 0 14px; }
+
+  /* caja de contacto amarilla: pegada debajo de la descripcion, compacta */
+  .cat--detalle .detalle__contacto { flex-shrink: 0; margin-top: 0; padding: 12px 14px; border-radius: 14px; }
+  .cat--detalle .detalle__vendedor { gap: 12px; }
+  .cat--detalle .detalle__avatar { flex: 0 0 44px; height: 44px; font-size: 18px; }
+  .cat--detalle .detalle__vendedor h2 { font-size: 15px; }
+
+  .cat--detalle .detalle__contacto .detalle__whatsapp { min-height: 0; gap: 12px; padding: 12px; margin-top: 10px; font-size: 14px; border-radius: 8px; }
+  .cat--detalle .detalle__whatsapp svg { width: 26px; height: 26px; }
+  .cat--detalle .detalle__contacto-aviso { font-size: 13px; }
+}
 
 /* Administración de las publicaciones del usuario */
 .mis { width: min(100%, 1120px); margin: 0 auto; padding: 28px 40px 60px; }
