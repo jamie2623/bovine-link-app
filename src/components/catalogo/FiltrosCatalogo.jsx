@@ -29,7 +29,11 @@ export default function FiltrosCatalogo({
         <h2 className="cat-filtros__titulo">Razas</h2>
 
         {CATEGORIAS_RAZA.map((cat) => {
-          const delGrupo = razas.filter((r) => r.categoria === cat.valor)
+          // Se muestran en orden de id (la migracion V8 los numera en el
+          // orden pedido dentro de cada categoria).
+          const delGrupo = razas
+            .filter((r) => r.categoria === cat.valor)
+            .sort((a, b) => a.id - b.id)
           if (delGrupo.length === 0) return null
           return (
             <div key={cat.valor} className="cat-filtros__grupo">
