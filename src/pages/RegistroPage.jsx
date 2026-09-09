@@ -61,8 +61,7 @@ export default function RegistroPage() {
     <AuthLayout
       titulo="Bienvenido"
       subtitulo="Regístrate para continuar"
-      video="/auth-video-registro.mp4"
-      videoPosition="center 15%"
+      video="/Mountain_meadow_with_cows.mp4"
       variante="registro"
       pie={
         <>
