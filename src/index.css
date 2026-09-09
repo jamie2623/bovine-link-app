@@ -1579,7 +1579,7 @@ code {
      centradas y con margen para que se vea ordenado. Nunca del mismo
      tamano que la principal. --- */
   .cat--detalle .detalle__galeria { display: flex; flex-direction: column; align-items: center; }
-  .cat--detalle .detalle__principal { aspect-ratio: auto; height: min(38vh, 300px); width: 96%; border-radius: 14px; }
+  .cat--detalle .detalle__principal { aspect-ratio: 1.5; height: min(35vh, 280px); width: auto; max-width: 100%; border-radius: 14px; }
   .cat--detalle .detalle__miniaturas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 16px; width: 100%; }
   .cat--detalle .detalle__miniaturas button { width: 96px; border-radius: 8px; }
 
