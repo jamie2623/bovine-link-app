@@ -897,6 +897,44 @@ code {
   }
 }
 
+/* ============================================================
+   Registro: la tarjeta queda estatica. Con margin:auto se
+   recentraba (y "saltaba") cada vez que aparecia/desaparecia un
+   mensaje de error. Aqui se ancla arriba y se compacta un poco
+   para que entre sin mover nada.
+   ============================================================ */
+.auth--registro {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.auth--registro .auth__panel {
+  align-items: flex-start;               /* ancla la tarjeta arriba */
+  padding-top: clamp(16px, 6vh, 52px);
+  padding-bottom: 24px;
+  overflow-y: auto;                      /* si no cabe, scrollea el panel; la tarjeta no salta */
+}
+
+.auth--registro .auth__card {
+  margin-block: 0;                       /* anula el centrado vertical de margin:auto */
+  padding-top: 24px;
+  padding-bottom: 22px;
+}
+
+.auth--registro .auth__logo {
+  width: 120px;
+  margin-bottom: 4px;
+}
+
+.auth--registro .auth__subtitulo {
+  margin: 4px 0 12px;
+}
+
+.auth--registro .auth__form {
+  gap: 10px;
+}
+
 /* ---------- Responsivo ---------- */
 
 @media (max-width: 860px) {

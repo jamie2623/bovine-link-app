@@ -63,6 +63,7 @@ export default function RegistroPage() {
       subtitulo="Regístrate para continuar"
       video="/auth-video-registro.mp4"
       videoPosition="center 15%"
+      variante="registro"
       pie={
         <>
           ¿Ya tienes cuenta?

@@ -12,10 +12,11 @@ import { LOGO_FALLBACK, LOGO_URL } from '../../config'
  *   titulo: string, subtitulo: string,
  *   children: React.ReactNode, pie: React.ReactNode,
  *   video?: string,
- *   videoPosition?: string
+ *   videoPosition?: string,
+ *   variante?: string
  * }} props
  */
-export default function AuthLayout({ titulo, subtitulo, children, pie, video, videoPosition }) {
+export default function AuthLayout({ titulo, subtitulo, children, pie, video, videoPosition, variante }) {
   const videoRef = useRef(null)
   const [listo, setListo] = useState(false)
 
@@ -42,7 +43,7 @@ export default function AuthLayout({ titulo, subtitulo, children, pie, video, vi
   }, [mostrarVideo])
 
   return (
-    <div className={'auth' + (mostrarVideo ? ' auth--con-video' : '')}>
+    <div className={'auth' + (mostrarVideo ? ' auth--con-video' : '') + (variante ? ' auth--' + variante : '')}>
       {mostrarVideo && (
         <div className="auth__media" aria-hidden="true">
           <video
