@@ -1577,14 +1577,14 @@ code {
 
   /* --- galeria: la foto principal manda; las miniaturas mas grandes,
      centradas y con margen para que se vea ordenado. Nunca del mismo
-     tamano que la principal. --- */
-  .cat--detalle .detalle__galeria { display: flex; flex-direction: column; align-items: center; }
-  .cat--detalle .detalle__principal { aspect-ratio: 1.5; height: min(35vh, 280px); width: auto; max-width: 100%; border-radius: 14px; }
+     tamano que la principal. Todo el bloque va centrado vertical. --- */
+  .cat--detalle .detalle__galeria { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .cat--detalle .detalle__principal { aspect-ratio: 1.5; height: min(44vh, 350px); width: auto; max-width: 100%; border-radius: 14px; }
   .cat--detalle .detalle__miniaturas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 16px; width: 100%; }
   .cat--detalle .detalle__miniaturas button { width: 96px; border-radius: 8px; }
 
-  /* --- informacion: todo apilado desde arriba (sin hueco en medio) --- */
-  .cat--detalle .detalle__informacion { display: flex; flex-direction: column; min-height: 0; }
+  /* --- informacion: bloque centrado vertical (no pegado arriba) --- */
+  .cat--detalle .detalle__informacion { display: flex; flex-direction: column; justify-content: center; min-height: 0; }
   .cat--detalle .detalle__raza { align-self: flex-start; padding: 2px 12px; font-size: 13px; border-radius: 8px; }
   .cat--detalle .detalle h1 { font-size: clamp(18px, 2.2vw, 24px); margin: 10px 0 8px; }
   .cat--detalle .detalle__precio { font-size: 22px; margin: 0 0 10px; }
