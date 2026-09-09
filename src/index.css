@@ -584,6 +584,8 @@ code {
   object-fit: cover;
   display: block;
   opacity: 0;
+  /* el material se ve oscuro: lo aclaramos un poco */
+  filter: brightness(1.28) contrast(0.96) saturate(1.05);
   transition: opacity 0.6s ease;
 }
 
@@ -591,13 +593,13 @@ code {
   opacity: 1;
 }
 
-/* tinte general para que el video no compita con el texto de la tarjeta */
+/* tinte suave: solo una viñeta ligera detrás de la tarjeta para que el
+   texto siga legible, sin oscurecer todo el video */
 .auth__media-tinte {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(60% 60% at 50% 45%, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.5)),
-    rgba(0, 0, 0, 0.2);
+    radial-gradient(65% 65% at 50% 45%, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.26));
   pointer-events: none;
 }
 
