@@ -898,11 +898,13 @@ code {
 }
 
 /* ============================================================
-   Registro: la tarjeta queda ESTATICA y sin scroll.
-   - Con margin:auto se recentraba (y "saltaba") al aparecer/ocultar
-     mensajes de error -> se ancla arriba.
+   Registro: la tarjeta va CENTRADA y sin scroll.
    - Todo lo vertical se mide con vh (clamp) para que la tarjeta se
-     encoja sola y quepa completa en pantallas bajas, sin scroll.
+     encoja sola y quepa completa en pantallas bajas.
+   - Se centra con margin-block:auto: cuando sobra espacio queda al
+     centro (mismo aire arriba y abajo); si la ventana es muy baja,
+     el auto colapsa a 0, la tarjeta se ancla arriba y el panel hace
+     scroll de seguridad -> nunca se recorta.
    ============================================================ */
 .auth--registro {
   height: 100vh;
@@ -911,14 +913,13 @@ code {
 }
 
 .auth--registro .auth__panel {
-  align-items: flex-start;               /* ancla la tarjeta arriba */
-  padding-top: clamp(10px, 3.5vh, 44px);
-  padding-bottom: clamp(10px, 3.5vh, 24px);
+  align-items: flex-start;               /* respaldo: si no cabe, ancla arriba y deja hacer scroll */
+  padding-block: clamp(10px, 3.5vh, 44px);
   overflow-y: auto;                      /* red de seguridad para ventanas diminutas */
 }
 
 .auth--registro .auth__card {
-  margin-block: 0;                       /* anula el centrado vertical de margin:auto */
+  margin-block: auto;                    /* centra vertical cuando sobra espacio */
   padding-top: clamp(14px, 2.6vh, 26px);
   padding-bottom: clamp(12px, 2.2vh, 24px);
 }
@@ -1001,10 +1002,17 @@ code {
     filter: drop-shadow(0 14px 44px rgba(0, 0, 0, 0.55));
   }
 
-  /* la tarjeta ya no se autocentra con "margin: auto": la centra el panel */
-  .auth__card,
-  .auth--registro .auth__card {
+  /* login: la tarjeta ya no se autocentra con "margin: auto", la centra el panel */
+  .auth__card {
     margin: 0;
+    flex-shrink: 0;
+  }
+
+  /* registro: centrada vertical sin recortarse (margin-block:auto), sin
+     margen horizontal para no pelear con justify-content del panel */
+  .auth--registro .auth__card {
+    margin-inline: 0;
+    margin-block: auto;
     flex-shrink: 0;
   }
 
@@ -1021,8 +1029,7 @@ code {
       linear-gradient(90deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
   }
 
-  /* registro: la tarjeta sigue anclada arriba (no se recentra al aparecer
-     los errores); el logo lateral se centra vertical por su cuenta */
+  /* el logo lateral se centra vertical por su cuenta (no lo mueve la tarjeta) */
   .auth--registro .auth__marca {
     align-self: center;
   }
