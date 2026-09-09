@@ -71,6 +71,22 @@ export default function AuthLayout({ titulo, subtitulo, children, pie, video, vi
       )}
 
       <div className="auth__panel">
+        {/* En pantallas anchas: logo grande a la izquierda, tarjeta a la
+            derecha. En pantallas angostas este bloque se oculta por CSS y
+            queda solo el logo de adentro de la tarjeta. */}
+        <div className="auth__marca" aria-hidden="true">
+          <img
+            className="auth__marca-logo"
+            src={LOGO_URL}
+            alt=""
+            onError={(e) => {
+              if (e.currentTarget.src.endsWith(LOGO_URL)) {
+                e.currentTarget.src = LOGO_FALLBACK
+              }
+            }}
+          />
+        </div>
+
         <div className="auth__card">
           <img
             className="auth__logo"
