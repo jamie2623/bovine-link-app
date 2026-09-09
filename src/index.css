@@ -898,10 +898,11 @@ code {
 }
 
 /* ============================================================
-   Registro: la tarjeta queda estatica. Con margin:auto se
-   recentraba (y "saltaba") cada vez que aparecia/desaparecia un
-   mensaje de error. Aqui se ancla arriba y se compacta un poco
-   para que entre sin mover nada.
+   Registro: la tarjeta queda ESTATICA y sin scroll.
+   - Con margin:auto se recentraba (y "saltaba") al aparecer/ocultar
+     mensajes de error -> se ancla arriba.
+   - Todo lo vertical se mide con vh (clamp) para que la tarjeta se
+     encoja sola y quepa completa en pantallas bajas, sin scroll.
    ============================================================ */
 .auth--registro {
   height: 100vh;
@@ -911,28 +912,60 @@ code {
 
 .auth--registro .auth__panel {
   align-items: flex-start;               /* ancla la tarjeta arriba */
-  padding-top: clamp(16px, 6vh, 52px);
-  padding-bottom: 24px;
-  overflow-y: auto;                      /* si no cabe, scrollea el panel; la tarjeta no salta */
+  padding-top: clamp(10px, 3.5vh, 44px);
+  padding-bottom: clamp(10px, 3.5vh, 24px);
+  overflow-y: auto;                      /* red de seguridad para ventanas diminutas */
 }
 
 .auth--registro .auth__card {
   margin-block: 0;                       /* anula el centrado vertical de margin:auto */
-  padding-top: 24px;
-  padding-bottom: 22px;
+  padding-top: clamp(14px, 2.6vh, 26px);
+  padding-bottom: clamp(12px, 2.2vh, 24px);
 }
 
 .auth--registro .auth__logo {
-  width: 120px;
-  margin-bottom: 4px;
+  width: clamp(72px, 12vh, 128px);
+  margin-bottom: clamp(2px, 0.6vh, 8px);
+}
+
+.auth--registro .auth__titulo {
+  font-size: clamp(17px, 2.5vh, 22px);
 }
 
 .auth--registro .auth__subtitulo {
-  margin: 4px 0 12px;
+  margin: clamp(2px, 0.6vh, 6px) 0 clamp(6px, 1.6vh, 16px);
+  font-size: clamp(13px, 1.9vh, 15px);
 }
 
 .auth--registro .auth__form {
-  gap: 10px;
+  gap: clamp(6px, 1.4vh, 12px);
+}
+
+.auth--registro .auth__campo {
+  gap: clamp(3px, 0.7vh, 6px);
+}
+
+.auth--registro .auth__input,
+.auth--registro .auth__password .auth__input {
+  padding-top: clamp(7px, 1.4vh, 11px);
+  padding-bottom: clamp(7px, 1.4vh, 11px);
+}
+
+.auth--registro .auth__fila {
+  align-items: end;                      /* alinea los dos inputs aunque una etiqueta ocupe 2 lineas */
+}
+
+.auth--registro .auth__fila .auth__campo > label {
+  min-height: 0;                         /* no reservar 2 lineas: ahorra alto en pantallas bajas */
+}
+
+.auth--registro .auth__boton {
+  margin-top: clamp(4px, 1vh, 8px);
+  padding: clamp(9px, 1.8vh, 13px);
+}
+
+.auth--registro .auth__pie {
+  margin-top: clamp(8px, 1.8vh, 18px);
 }
 
 /* ---------- Responsivo ---------- */
